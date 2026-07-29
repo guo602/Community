@@ -3,6 +3,7 @@ package com.nowcoder.community.service;
 import ch.qos.logback.core.util.StringUtil;
 import com.nowcoder.community.dao.UserMapper;
 import com.nowcoder.community.entity.User;
+import com.nowcoder.community.util.CommunityConstant;
 import com.nowcoder.community.util.CommunityUtil;
 import com.nowcoder.community.util.MailClient;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +19,7 @@ import java.util.Map;
 import java.util.Random;
 
 @Service
-public class UserService {
+public class UserService implements CommunityConstant {
 
     @Autowired
     private UserMapper userMapper;
@@ -67,6 +68,7 @@ public class UserService {
 
         if(StringUtils.isBlank(user.getEmail())){
             map.put("emailMsg","邮箱不能为空");
+
             return map;
         }
 
@@ -79,7 +81,7 @@ public class UserService {
 
         u = userMapper.selectByEmail(user.getEmail());
         if(u != null){
-            map.put("usernameMsg","该邮箱名已被注册");
+            map.put("email Msg","该邮箱名已被注册");
             return map;
         }
 
@@ -104,6 +106,18 @@ public class UserService {
         mailClient.sendMail(user.getEmail(),"激活账号",content);
 
         return map;
+    }
+
+    public int activation(int userId,String code){
+        User user = userMapper.selectById(userId);
+        if(user.getStatus() == 1){
+            return ACTIVATION_DUPLICATE;
+        }else if (user.getActivationCode().equals(code)){
+            userMapper.updateStatus(userId,1);
+            return ACTIVATION_SUCCESS;
+        }else{
+            return ACTIVATION_FAIL;
+        }
 
     }
 }

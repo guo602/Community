@@ -96,9 +96,6 @@ CREATE TABLE discuss_post (
 
 项目根目录下的 `application.properties` 已被 `.gitignore` 忽略，需自行创建。可参考 `application.properties.example`：
 
-```bash
-cp application.properties.example src/main/resources/application.properties
-```
 
 然后修改其中的数据库连接、邮件账号等配置。
 
@@ -112,7 +109,7 @@ mvn spring-boot:run
 
 ### 5. 访问
 
-默认地址：[http://localhost:8091/community/index](http://localhost:8091/community/index)
+默认地址：[http://localhost:8090/community/index](http://localhost:8090/community/index)
 
 > 应用配置了 `server.servlet.context-path=/community`，所有 URL 均需带上此前缀。
 
