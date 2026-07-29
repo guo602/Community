@@ -41,3 +41,9 @@ build/
 ### mvn ###
 mvnw
 mvnw.cmd
+
+### privacy
+application.properties
+
+
+

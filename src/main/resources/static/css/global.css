@@ -24,7 +24,8 @@ header .navbar-brand {
 	/*background-size: 147px 42px;*/
 	/*width: 147px;*/
 	/*height: 42px;*/
-	background: url('https://imgtu.com/uploads/1l9vmzkt/t-glogo.webp') no-repeat;
+	/*background: url('https://imgtu.com/uploads/1l9vmzkt/t-glogo.webp') no-repeat;*/
+	background: url('../img/glogo.png') no-repeat;
 	background-size: 117px 42px;
 	width: 117px;
 	height: 42px;
