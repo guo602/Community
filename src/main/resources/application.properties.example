@@ -1,0 +1,36 @@
+# ServerProperties
+spring.application.name=community
+server.port=8091
+server.servlet.context-path=/community
+spring.thymeleaf.cache=false
+
+# Database
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/community?characterEncoding=utf-8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true
+spring.datasource.username=root
+spring.datasource.password=your_password
+spring.datasource.hikari.maximum-pool-size=15
+spring.datasource.hikari.minimum-idle=5
+spring.datasource.hikari.idle-timeout=30000
+
+# MyBatis
+mybatis.mapper-locations=classpath:mapper/*.xml
+mybatis.type-aliases-package=com.nowcoder.community.entity
+mybatis.configuration.use-generated-keys=true
+mybatis.configuration.map-underscore-to-camel-case=true
+
+# Mail
+spring.mail.host=smtp.example.com
+spring.mail.port=465
+spring.mail.username=your_email@example.com
+spring.mail.password=your_mail_password
+spring.mail.protocol=smtps
+spring.mail.properties.mail.smtp.ssl.enable=true
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.timeout=5000
+spring.mail.properties.mail.smtp.connectiontimeout=5000
+spring.mail.properties.mail.smtp.writetimeout=5000
+
+# Community
+community.path.domain=http://localhost:8091
+community.headurl.library=http://images.nowcoder.com/head
