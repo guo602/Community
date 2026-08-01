@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="icon" href="https://static.nowcoder.com/images/logo_87_87.png" th:replace="index::icon" />
+	<link rel="icon" href="https://static.nowcoder.com/images/logo_87_87.png" th:replace="~{index::icon}" />
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
 	<link rel="stylesheet" th:href="@{/css/global.css}" />
 	<link rel="stylesheet" th:href="@{/css/login.css}" />
@@ -12,7 +12,7 @@
 <body>
 	<div class="nk-container">
 		<!-- 头部 -->
-		<header class="bg-dark sticky-top" th:replace="index::header">
+		<header class="bg-dark sticky-top" th:replace="~{index::header}">
 			<div class="container">
 				<!-- 导航 -->
 				<nav class="navbar navbar-expand-lg navbar-dark">
@@ -123,7 +123,7 @@
 		</div>
 
 		<!-- 尾部 -->
-		<footer class="bg-dark" th:replace="index::footer">
+		<footer class="bg-dark" th:replace="~{index::footer}">
 			<div class="container">
 				<div class="row">
 					<!-- 二维码 -->
