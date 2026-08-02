@@ -1,29 +1,30 @@
 package com.nowcoder.community.controller;
 
 
+import com.nowcoder.community.annotation.LoginRequired;
 import com.nowcoder.community.entity.User;
 import com.nowcoder.community.service.UserService;
 import com.nowcoder.community.util.CommunityUtil;
 import com.nowcoder.community.util.HostHolder;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -45,11 +46,13 @@ public class UserController {
     @Autowired
     private HostHolder hostHolder;
 
+    @LoginRequired
     @RequestMapping(path = "setting",method = RequestMethod.GET)
     public String getSettingPage(){
             return "/site/setting";
     }
 
+    @LoginRequired
     @RequestMapping(path = "/upload",method = RequestMethod.POST)
     public String uploadAvatar(MultipartFile avatarImg, Model model) throws IOException {
         if(avatarImg == null){
@@ -83,6 +86,7 @@ public class UserController {
         return "redirect:/index";
     }
 
+
     @RequestMapping(path = "/avatar/{fileName}",method = RequestMethod.GET)
     public void getAvatarImg(@PathVariable("fileName") String fileName, HttpServletResponse response){
         fileName = uploadPath + "/" + fileName;
@@ -100,6 +104,27 @@ public class UserController {
         }catch (IOException e){
             logger.error("读取头像失败" + e.getMessage());
         }
+    }
+    @LoginRequired
+    @RequestMapping(path = "/updatePassword", method = RequestMethod.POST)
+    public String updatePassword(@RequestParam("oldPassword") String oldPassword,
+                                 @RequestParam("newPassword") String newPassword,
+                                 Model model) {
+        User user = hostHolder.getUser();
+        if (user == null) {
+            return "redirect:/login";
+        }
+        Map<String, Object> map = userService.updatePassword(user.getId(), oldPassword, newPassword);
+        if (map == null || map.isEmpty()) {
+            model.addAttribute("successMsg", "密码修改成功");
+        } else {
+            model.addAttribute("oldPasswordMsg", map.get("oldPasswordMsg"));
+            model.addAttribute("newPasswordMsg", map.get("newPasswordMsg"));
+            if (map.get("oldPasswordMsg") != null) {
+                model.addAttribute("newPassword", newPassword);
+            }
+        }
+        return "/site/setting";
     }
 
 }

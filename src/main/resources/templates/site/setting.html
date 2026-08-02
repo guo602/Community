@@ -88,30 +88,38 @@
 				</form>
 				<!-- 修改密码 -->
 				<h6 class="text-left text-info border-bottom pb-2 mt-5">修改密码</h6>
-				<form class="mt-5">				
+				<form class="mt-5" method="post" th:action="@{/user/updatePassword}" id="update-password-form">
 					<div class="form-group row mt-4">
 						<label for="old-password" class="col-sm-2 col-form-label text-right">原密码:</label>
 						<div class="col-sm-10">
-							<input type="password" class="form-control" id="old-password" placeholder="请输入原始密码!" required>
-							<div class="invalid-feedback">
-								密码长度不能小于8位!
+							<input type="password"
+								   th:class="|form-control ${oldPasswordMsg!=null?'is-invalid':''}|"
+								   id="old-password" name="oldPassword" placeholder="请输入原始密码!" required>
+							<div class="invalid-feedback" th:text="${oldPasswordMsg}">
+								请输入正确的原密码!
 							</div>							
 						</div>
 					</div>
 					<div class="form-group row mt-4">
 						<label for="new-password" class="col-sm-2 col-form-label text-right">新密码:</label>
 						<div class="col-sm-10">
-							<input type="password" class="form-control" id="new-password" placeholder="请输入新的密码!" required>
-							<div class="invalid-feedback">
-								密码长度不能小于8位!
+							<input type="password"
+								   th:class="|form-control ${newPasswordMsg!=null?'is-invalid':''}|"
+								   id="new-password" name="newPassword" placeholder="请输入新的密码!" required
+								   th:value="${newPassword}">
+							<div class="invalid-feedback" th:text="${newPasswordMsg}">
+								请输入新的密码!
 							</div>							
 						</div>
 					</div>
 					<div class="form-group row mt-4">
 						<label for="confirm-password" class="col-sm-2 col-form-label text-right">确认密码:</label>
 						<div class="col-sm-10">
-							<input type="password" class="form-control" id="confirm-password" placeholder="再次输入新密码!" required>
-							<div class="invalid-feedback">
+							<input type="password"
+								   class="form-control"
+								   id="confirm-password" name="confirmPassword" placeholder="再次输入新密码!" required
+								   th:value="${newPassword}">
+							<div class="invalid-feedback" id="confirm-password-msg">
 								两次输入的密码不一致!
 							</div>								
 						</div>
@@ -119,10 +127,11 @@
 					<div class="form-group row mt-4">
 						<div class="col-sm-2"></div>
 						<div class="col-sm-10 text-center">
-							<button type="submit" class="btn btn-info text-white form-control">立即保存</button>
+							<button type="submit" class="btn btn-info text-white form-control" id="update-password-btn">立即保存</button>
 						</div>
 					</div>
 				</form>				
+				<div id="password-success-msg" th:if="${successMsg!=null}" th:data-msg="${successMsg}"></div>
 			</div>
 		</div>
 
@@ -197,6 +206,43 @@
 	<script>
 		$(function(){
 			bsCustomFileInput.init();
+
+			function validateConfirmPassword() {
+				var newPassword = $("#new-password").val();
+				var confirmPassword = $("#confirm-password").val();
+				var isMismatch = confirmPassword.length > 0 && newPassword !== confirmPassword;
+				if (isMismatch) {
+					$("#confirm-password").addClass("is-invalid");
+					$("#confirm-password-msg").text("两次输入的新密码不一致");
+					$("#update-password-btn").prop("disabled", true);
+					return false;
+				}
+
+				$("#confirm-password").removeClass("is-invalid");
+				$("#update-password-btn").prop("disabled", false);
+				return true;
+			}
+
+			$("#confirm-password").blur(function () {
+				validateConfirmPassword();
+			});
+
+			$("#new-password").on("input", function () {
+				if ($("#confirm-password").val().length > 0) {
+					validateConfirmPassword();
+				}
+			});
+
+			$("#update-password-form").submit(function (e) {
+				if (!validateConfirmPassword()) {
+					e.preventDefault();
+				}
+			});
+
+			var successMsg = $("#password-success-msg").data("msg");
+			if (successMsg) {
+				alert(successMsg);
+			}
 		});
 	</script>
 </body>

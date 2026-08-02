@@ -147,3 +147,66 @@ em {
 	font-style: normal;
 	color: red;
 }
+
+.alert-box .modal-dialog {
+	max-width: 430px;
+}
+
+.alert-box .alert-content {
+	border: none;
+	border-radius: 14px;
+	overflow: hidden;
+	box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+	animation: alert-popup-in .18s ease-out;
+}
+
+.alert-box .alert-header {
+	border-bottom: 1px solid #eef0f3;
+	padding: 16px 20px 12px;
+	background: #fff;
+}
+
+.alert-box .alert-title {
+	font-size: 17px;
+	font-weight: 600;
+	color: #1f2d3d;
+}
+
+.alert-box .alert-body {
+	padding: 16px 20px 8px;
+}
+
+.alert-box .alert-message {
+	margin-bottom: 0;
+	line-height: 1.7;
+	color: #4a5568;
+	font-size: 14px;
+}
+
+.alert-box .alert-footer {
+	border-top: none;
+	padding: 14px 20px 20px;
+}
+
+.alert-box .alert-confirm-btn {
+	min-width: 110px;
+	border-radius: 20px;
+	background: linear-gradient(135deg, #17a2b8 0%, #2f80ed 100%);
+	border: none;
+	box-shadow: 0 8px 18px rgba(47, 128, 237, 0.3);
+}
+
+.alert-box .alert-confirm-btn:hover {
+	opacity: .92;
+}
+
+@keyframes alert-popup-in {
+	from {
+		transform: translateY(8px) scale(.98);
+		opacity: .4;
+	}
+	to {
+		transform: translateY(0) scale(1);
+		opacity: 1;
+	}
+}
