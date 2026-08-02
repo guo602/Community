@@ -75,7 +75,7 @@ CREATE TABLE user (
     type            INT          NOT NULL DEFAULT 0 COMMENT '0-普通用户; 1-管理员',
     status          INT          NOT NULL DEFAULT 0 COMMENT '0-未激活; 1-已激活',
     activation_code VARCHAR(100) NOT NULL,
-    header_url      VARCHAR(200) NOT NULL DEFAULT '',
+    avatar_url      VARCHAR(200) NOT NULL DEFAULT '',
     create_time     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -131,7 +131,7 @@ mvn spring-boot:run
 | `spring.datasource.*` | MySQL 连接信息 | — |
 | `spring.mail.*` | SMTP 邮件服务 | — |
 | `community.path.domain` | 站点域名（用于邮件链接） | `http://localhost:8091` |
-| `community.headurl.library` | 默认头像库地址 | `http://images.nowcoder.com/head` |
+| `community.avatarurl.library` | 默认头像库地址 | `http://images.nowcoder.com/head` |
 
 ## 运行测试
 

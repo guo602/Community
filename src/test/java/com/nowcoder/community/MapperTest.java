@@ -47,7 +47,7 @@ public class MapperTest {
         user.setPassword("23456");
         user.setEmail("test@qq.com");
         user.setSalt("abc");
-        user.setHeaderUrl("http://www.nowcoder.com/101.png");
+        user.setAvatarUrl("http://www.nowcoder.com/101.png");
         user.setCreateTime(new Date());
 
         int row = userMapper.insertUser(user);
@@ -61,7 +61,7 @@ public class MapperTest {
         int rows = userMapper.updateStatus(150,1);
         System.out.println(rows);
 
-        rows = userMapper.updateHeader(150,"http://www.noewcoder.com/107.png");
+        rows = userMapper.updateAvatar(150,"http://www.noewcoder.com/107.png");
         System.out.println(rows);
 
         rows = userMapper.updatePassword(150,"34567");

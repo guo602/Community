@@ -6,11 +6,11 @@
 <mapper namespace="com.nowcoder.community.dao.UserMapper">
 
     <sql id = "selectFields">
-        id, username, password, salt, email, type, status, activation_code,header_url,create_time
+        id, username, password, salt, email, type, status, activation_code,avatar_url,create_time
     </sql>
 
     <sql id = "insertFields">
-        username, password, salt, email, type, status, activation_code,header_url,create_time
+        username, password, salt, email, type, status, activation_code,avatar_url,create_time
     </sql>
     <!-- 根据 ID 查询用户 -->
     <select id="selectById" parameterType="int" resultType="User">
@@ -37,7 +37,7 @@
         INSERT INTO user ( <include refid="insertFields"></include>)
         VALUES (#{username}, #{password},#{salt},#{email},
                 #{type}, #{status}, #{activationCode},
-                #{headerUrl},#{createTime})
+                #{avatarUrl},#{createTime})
     </insert>
 
     <!-- 更新用户 -->
@@ -47,9 +47,9 @@
         WHERE id = #{id}
     </update>
 
-    <update id="updateHeader" parameterType="User">
+    <update id="updateAvatar" parameterType="User">
         UPDATE user
-        SET header_url = #{headerUrl}
+        SET avatar_url = #{avatarUrl}
         WHERE id = #{id}
     </update>
 

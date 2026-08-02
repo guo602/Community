@@ -38,8 +38,8 @@ public class UserService implements CommunityConstant {
     @Value("${community.path.domain}")
     private String domain;
 
-    @Value("${community.headurl.library}")
-    private String headurlLibrary;
+    @Value("${community.avatarurl.library}")
+    private String avatarUrlLibrary;
 
     @Value("${server.servlet.context-path}")
     private String contextPath;
@@ -96,7 +96,7 @@ public class UserService implements CommunityConstant {
         user.setType(0);
         user.setStatus(0);
         user.setActivationCode(CommunityUtil.generateUUID());
-        user.setHeaderUrl(String.format(headurlLibrary + "/%dt.png",new Random().nextInt(1000)));
+        user.setAvatarUrl(String.format(avatarUrlLibrary + "/%dt.png",new Random().nextInt(1000)));
         user.setCreateTime(new Date());
 
         userMapper.insertUser(user);
@@ -181,5 +181,7 @@ public class UserService implements CommunityConstant {
         return loginTicketMapper.selectByTicket(ticket);
     }
 
-//    public int uodateHeader
+    public int updateAvatar(int userId,String avatarUrl){
+        return userMapper.updateAvatar(userId,avatarUrl);
+    }
 }

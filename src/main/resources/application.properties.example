@@ -33,4 +33,4 @@ spring.mail.properties.mail.smtp.writetimeout=5000
 
 # Community
 community.path.domain=http://localhost:8090
-community.headurl.library=http://images.nowcoder.com/head
+community.avatarurl.library=http://images.nowcoder.com/head
