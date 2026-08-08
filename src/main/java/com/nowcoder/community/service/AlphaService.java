@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Service
 //@Scope("prototype")
@@ -29,6 +30,7 @@ public class AlphaService {
     public String find(){
         return alphaDao.select();
     }
+
 
 
 
