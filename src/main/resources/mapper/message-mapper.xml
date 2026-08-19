@@ -6,7 +6,7 @@
 <mapper namespace="com.nowcoder.community.dao.MessageMapper">
 
     <sql id="selectFields">
-        id,from_id,to_id,conversation_id,status,create_time
+        id,from_id,to_id,conversation_id,content,status,create_time
     </sql>
 
     <select id="selectConversations">

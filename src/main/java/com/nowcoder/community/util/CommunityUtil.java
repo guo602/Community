@@ -7,6 +7,7 @@ import org.springframework.util.DigestUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 public class CommunityUtil {
@@ -21,6 +22,17 @@ public class CommunityUtil {
             return null;
         }
         return DigestUtils.md5DigestAsHex(key.getBytes());
+    }
+
+    //生成随机密码（大小写字母+数字）
+    public static String generateRandomPassword(int length){
+        String chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<length;i++){
+            sb.append(chars.charAt(random.nextInt(chars.length())));
+        }
+        return sb.toString();
     }
 
     public static String getJSONString(int code, String msg, Map<String,Object> map){

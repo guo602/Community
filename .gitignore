@@ -45,5 +45,8 @@ mvnw.cmd
 ### privacy
 application.properties
 
+.claude
+log/
+
 
 

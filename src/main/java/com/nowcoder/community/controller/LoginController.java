@@ -49,6 +49,24 @@ public class LoginController implements CommunityConstant {
         return "/site/login";
     }
 
+    @RequestMapping(path = "/forget", method = RequestMethod.GET)
+    public String getForgetPage(){
+        return "/site/forget";
+    }
+
+    @RequestMapping(path = "/forget", method = RequestMethod.POST)
+    public String forget(Model model, String email) {
+        Map<String, Object> map = userService.forgetPassword(email);
+        if (map == null || map.isEmpty()) {
+            model.addAttribute("msg", "重置成功，新密码已发送至您的邮箱，请注意查收！");
+            model.addAttribute("target", "/login");
+            return "/site/operate-result";
+        } else {
+            model.addAttribute("emailMsg", map.get("emailMsg"));
+            return "/site/forget";
+        }
+    }
+
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public String register(Model model, User user) {
         Map<String, Object> map = userService.register(user);
