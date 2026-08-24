@@ -25,9 +25,9 @@ public class LikeController {
     @RequestMapping(path = "/like",method = RequestMethod.POST)
     @ResponseBody
     @LoginRequired
-    public String like(int entityType,int entityId){
+    public String like(int entityType,int entityId,int authorUserId){
         User currentUser = hostHolder.getUser();
-        likeService.like(currentUser.getId(),entityType,entityId);
+        likeService.like(currentUser.getId(),entityType,entityId,authorUserId);
         long likeCount = likeService.findEntityLikeCount(entityType,entityId);
         int likeStatus = likeService.findEntityLikeStatus(currentUser.getId(),entityType,entityId);
 
@@ -35,8 +35,6 @@ public class LikeController {
         Map<String ,Object> map = new HashMap<>();
         map.put("likeCount",likeCount);
         map.put("likeStatus",likeStatus);
-
-        System.out.println(map.toString());
 
         return CommunityUtil.getJSONString(0,null,map);
 
