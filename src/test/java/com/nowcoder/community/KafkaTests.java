@@ -26,7 +26,7 @@ public class KafkaTests {
         }catch (Exception e){
             e.printStackTrace();
         }
-        
+
     }
 
 }

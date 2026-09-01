@@ -32,6 +32,17 @@ public interface CommunityConstant {
     int ENTITY_TYPE_COMMENT = 2;
     int ENTITY_TYPE_USER = 3;
 
+    /**
+     * kafka topics
+     */
+    String TOPIC_COMMENT = "comment";
+    String TOPIC_LIKE = "like";
+    String TOPIC_FOLLOW = "follow";
+
+    // 系统用户ID
+    int SYSTEM_USER_ID = 1 ;
+
+
 
 
 }
