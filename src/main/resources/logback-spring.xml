@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <contextName>community</contextName>
-    <property name="LOG_PATH" value="./log"/>
+
+    <!-- 下列值均来自 application.properties（community.log.*），不改 XML 即可调整；
+         若配置里没写则用 defaultValue 兜底 -->
+    <springProperty scope="context" name="LOG_PATH" source="community.log.path" defaultValue="./log"/>
+    <springProperty scope="context" name="LOG_MAX_FILE_SIZE" source="community.log.max-file-size" defaultValue="10MB"/>
+    <springProperty scope="context" name="LOG_INFO_MAX_HISTORY" source="community.log.info.max-history" defaultValue="30"/>
+    <springProperty scope="context" name="LOG_INFO_TOTAL_CAP" source="community.log.info.total-size-cap" defaultValue="100MB"/>
+    <springProperty scope="context" name="LOG_WARN_MAX_HISTORY" source="community.log.warn.max-history" defaultValue="14"/>
+    <springProperty scope="context" name="LOG_WARN_TOTAL_CAP" source="community.log.warn.total-size-cap" defaultValue="50MB"/>
+    <springProperty scope="context" name="LOG_ERROR_MAX_HISTORY" source="community.log.error.max-history" defaultValue="14"/>
+    <springProperty scope="context" name="LOG_ERROR_TOTAL_CAP" source="community.log.error.total-size-cap" defaultValue="50MB"/>
+
     <property name="APPDIR" value="community"/>
 
     <!-- error file -->
     <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/${APPDIR}/log_error.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_PATH}/${APPDIR}/error/log-error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>5MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>14</maxHistory>
+            <maxFileSize>${LOG_MAX_FILE_SIZE}</maxFileSize>
+            <maxHistory>${LOG_ERROR_MAX_HISTORY}</maxHistory>
+            <totalSizeCap>${LOG_ERROR_TOTAL_CAP}</totalSizeCap>
         </rollingPolicy>
         <append>true</append>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -29,12 +39,11 @@
     <!-- warn file -->
     <appender name="FILE_WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/${APPDIR}/log_warn.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_PATH}/${APPDIR}/warn/log-warn-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>5MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>14</maxHistory>
+            <maxFileSize>${LOG_MAX_FILE_SIZE}</maxFileSize>
+            <maxHistory>${LOG_WARN_MAX_HISTORY}</maxHistory>
+            <totalSizeCap>${LOG_WARN_TOTAL_CAP}</totalSizeCap>
         </rollingPolicy>
         <append>true</append>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -51,12 +60,11 @@
     <!-- info file -->
     <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/${APPDIR}/log_info.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_PATH}/${APPDIR}/info/log-info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>5MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>30</maxHistory>
+            <maxFileSize>${LOG_MAX_FILE_SIZE}</maxFileSize>
+            <maxHistory>${LOG_INFO_MAX_HISTORY}</maxHistory>
+            <totalSizeCap>${LOG_INFO_TOTAL_CAP}</totalSizeCap>
         </rollingPolicy>
         <append>true</append>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -82,6 +90,11 @@
     </appender>
 
     <logger name="com.nowcoder.community" level="debug"/>
+
+    <!-- 精简 Kafka 客户端日志：本机 broker(9092) 未启动时，NetworkClient/ConsumerCoordinator
+         会每秒重连刷屏（INFO/WARN），只保留 error 及以上级别 -->
+    <logger name="org.apache.kafka" level="ERROR"/>
+    <logger name="org.springframework.kafka" level="WARN"/>
 
     <root level="info">
         <appender-ref ref="FILE_ERROR"/>
